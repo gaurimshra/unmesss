@@ -1,284 +1,519 @@
-# ✦ Unmess
+<div align="center">
 
-> **Turn the chaos in your head into a plan.**
+✨ Unmess
 
-Unmess is a **local-first AI life-admin assistant** that transforms messy, unstructured thoughts into actionable tasks.
+Turn the chaos in your head into a plan.
 
-Instead of opening a traditional to-do app and manually figuring out what needs to be done, you simply write down what's on your mind.
+<p>
+  <b>Unmess</b> is a local-first AI productivity assistant that turns messy thoughts and brain dumps into structured, actionable tasks.
+</p>
 
-Unmess uses an **open-weight language model running locally through Ollama** to understand the brain dump, extract individual tasks, identify deadlines, assign priorities, detect blockers, and store the resulting tasks for later use.
+<p>
+  <img src="https://img.shields.io/badge/AI-Local%20Inference-6E56CF?style=for-the-badge" alt="Local AI">
+  <img src="https://img.shields.io/badge/Ollama-Powered-black?style=for-the-badge" alt="Ollama">
+  <img src="https://img.shields.io/badge/FastAPI-Backend-009688?style=for-the-badge" alt="FastAPI">
+  <img src="https://img.shields.io/badge/Next.js-Frontend-black?style=for-the-badge" alt="Next.js">
+</p>
 
----
+<p>
+  <i>You don't organize your thoughts first. Unmess does it for you.</i>
+</p>
 
-## ✨ The Problem
+</div>
 
-Most productivity tools assume that the user already knows how to organize their thoughts.
+🧠 The Problem
 
-Real life doesn't work that way.
+Most productivity apps assume that you already know what your tasks are.
 
-A person might think:
+Real life is messier.
 
-> "I have to finish my homework tomorrow, submit my exam form by midnight, study for my test on October 6th, send flowers to my friend, and buy groceries today."
+A typical brain dump might look like:
 
-That's not a clean task list.
+"I have to finish my homework tomorrow, submit my exam form by midnight, study for my test on October 6th, send flowers to my friend, and buy groceries today."
 
-It's a **brain dump**.
+That's not a task list.
 
-Turning that paragraph into a useful plan requires the user to manually:
+It's a brain dump.
 
-- identify separate tasks
-- find deadlines
-- determine urgency
-- remember dependencies
-- create individual tasks
-- prioritize everything
+Before turning it into something useful, you normally have to:
 
-Unmess moves that work to the AI.
+identify individual tasks
 
----
+find deadlines
 
-# 💡 The Idea
+decide what's urgent
 
-Instead of asking:
+remember dependencies
 
-> **"What tasks do you want to create?"**
+create tasks manually
+
+prioritize everything
+
+Unmess moves that cognitive work to the AI.
+
+💡 The Idea
+
+Traditional to-do apps ask:
+
+"What tasks do you want to create?"
 
 Unmess asks:
 
-> **"What's on your mind?"**
+"What's on your mind?"
 
-The user writes naturally.
+You write naturally.
+Unmess turns the mess into a plan.
 
-The AI turns that messy input into structured tasks.
+Example
 
-### Example
+Input
 
-Input:
-
-```text
 I need to finish my homework tomorrow,
 submit my exam form by midnight,
 study for my test on October 6th,
 send flowers to my friend,
 and buy groceries today.
 
-Output:
-🔥 Homework Assignment
-Deadline: Tomorrow
-Priority: Critical
+Output
+
+Task
+
+Deadline
+
+Priority
+
+🔴 Homework Assignment
+
+Tomorrow
+
+Critical
 
 ⚠️ Submit Exam Form
-Deadline: Midnight
-Priority: High
+
+Midnight
+
+High
 
 📚 Study for Test
-Deadline: October 6
-Priority: High
 
-🌸 Send Flowers
-Priority: Low
+October 6
+
+High
+
+💐 Send Flowers
+
+—
+
+Low
 
 🛒 Buy Groceries
-Deadline: Today
-Priority: Low
 
+Today
 
-🧠 Core Features
-1. Brain Dump
-Write naturally instead of manually creating tasks.
-I have too much going on...
+Low
 
-The AI extracts actionable items automatically.
-2. AI Task Extraction
-Unmess uses a local open-weight language model to identify individual tasks from unstructured text.
-It separates:
+🚀 Features
+
+🧠 Brain Dump
+
+Forget manually building a to-do list.
+
+Just write what's in your head:
+
+I have way too much going on...
+
+Unmess extracts the actionable work automatically.
+
+🤖 AI Task Extraction
+
+Unstructured thought → structured tasks.
+
 One messy paragraph
         ↓
-Multiple actionable tasks
+Individual actionable tasks
 
-3. Deadline Detection
-The agent attempts to recognize deadlines expressed in natural language.
-Examples:
-tomorrow
+📅 Natural-Language Deadlines
+
+Unmess understands phrases such as:
+
 today
+tomorrow
+Thursday
 October 6th
 by midnight
-Thursday
+next week
 
-These are converted into structured task data.
-4. Priority Classification
-Tasks are assigned a priority:
-- critical
-- high
-- normal
-- low
-This allows the application to surface urgent work first.
-5. Blocker Detection
-Unmess can represent task dependencies.
-For example:
-Get passport photo
-        ↓
+and converts them into structured deadline information.
+
+⚡ Priority Detection
+
+Tasks can be classified as:
+
+Critical · High · Normal · Low
+
+So urgent work can rise to the top instead of getting lost inside a giant list.
+
+🔗 Dependency Detection
+
+Unmess can recognize when one task needs another task to happen first.
+
+Get passport
+     ↓
 Submit internship application
 
-The application can represent the second task as being blocked by the first.
-6. Persistent Task Storage
-Tasks are stored in a local SQLite database using SQLAlchemy.
-This means the task list can persist beyond a single browser request.
-7. Local AI
-The application is designed around local inference through Ollama.
-The AI model currently used during development is:
+💾 Persistent Task Storage
+
+Tasks are persisted locally using:
+
+SQLite + SQLAlchemy
+
+Your tasks don't disappear when the session ends.
+
+🏠 Local AI
+
+Unmess is designed around local inference through Ollama.
+
+That means the core AI workflow can run without requiring a proprietary AI API key.
+
+Current development model:
+
 Gemma 3 1B
 
-This means the core AI workflow does not require a proprietary AI API key.
+🏗️ How It Works
 
-**🏗️ Architecture**
+flowchart TD
+    A["👤 User"] --> B["Next.js Frontend"]
+    B -->|HTTP| C["FastAPI Backend"]
+    C --> D["AI Agent"]
+    D --> E["Ollama"]
+    E --> F["Gemma 3"]
+    D --> G["Task / Planner / Memory Tools"]
+    G --> H[("SQLite Database")]
+    H --> C
+    C --> B
 
-                         USER
-                           │
-                           ▼
-                 ┌──────────────────┐
-                 │     Next.js      │
-                 │    Frontend      │
-                 └────────┬─────────┘
-                          │
-                          │ HTTP
-                          ▼
-                 ┌──────────────────┐
-                 │     FastAPI      │
-                 │     Backend      │
-                 └────────┬─────────┘
-                          │
-                          ▼
-                 ┌──────────────────┐
-                 │    AI Agent      │
-                 │                  │
-                 │  Gemma + Ollama  │
-                 └────────┬─────────┘
-                          │
-                          ▼
-                 ┌──────────────────┐
-                 │  Task / Planner  │
-                 │  / Memory Tools  │
-                 └────────┬─────────┘
-                          │
-                          ▼
-                 ┌──────────────────┐
-                 │      SQLite      │
-                 │    Database      │
-                 └──────────────────┘
+Request Flow
 
-**🔄 How the Request Flows**
-When a user submits a brain dump:
 User
- ↓
-Next.js frontend
- ↓
+  ↓
+Next.js Frontend
+  ↓
 POST /brain-dump
- ↓
+  ↓
 FastAPI
- ↓
-Gemma via Ollama
- ↓
+  ↓
+Ollama + AI Agent
+  ↓
 Structured JSON
- ↓
-Task validation / normalization
- ↓
-Task creation tools
- ↓
+  ↓
+Validation / Normalization
+  ↓
+Task Creation
+  ↓
 SQLite
- ↓
-FastAPI response
- ↓
-Next.js task cards
+  ↓
+Task Cards
 
-🛠️ Tech Stack
+🧩 Tech Stack
+
+Layer
+
+Technology
+
 Frontend
-- Next.js
-- React
-- TypeScript
-- Tailwind CSS
+
+Next.js, React, TypeScript
+
+Styling
+
+Tailwind CSS
+
 Backend
-- Python
-- FastAPI
-- SQLAlchemy
-- Pydantic
-AI
-- Gemma 3
-- Ollama
-- Local inference
-Storage
-- SQLite
-📁 Project
 
+Python, FastAPI
 
+Validation
+
+Pydantic
+
+AI Runtime
+
+Ollama
+
+Model
+
+Gemma 3 1B
+
+Inference
+
+Local
+
+Database
+
+SQLite
+
+ORM
+
+SQLAlchemy
+
+📁 Project Structure
+
+unmess/
+│
+├── frontend/
+│   ├── ...
+│   └── package.json
+│
+├── backend/
+│   ├── main.py
+│   └── requirements.txt
+│
+├── README.md
+└── .gitignore
+
+The project structure may evolve as planning, memory, and agent capabilities are expanded.
 
 ⚙️ Getting Started
-Prerequisites
-Make sure you have:
-- Python 3.11+
-- Node.js
-- npm
-- Git
-- Ollama
 
-cmd-
+Prerequisites
+
+Make sure you have:
+
+Python 3.11+
+
+Node.js
+
+npm
+
+Git
+
+Ollama
+
+1. Clone the repository
+
 git clone https://github.com/YOUR_USERNAME/unmess.git
 cd unmess
+
+2. Set up Ollama
+
+Install Ollama:
+
+https://ollama.com
+
+Then pull the model:
+
 ollama pull gemma3:1b
 
-in backend-
+Make sure Ollama is running before starting the backend.
+
+3. Start the backend
+
+cd backend
 python -m venv .venv
+
+Windows
+
 .venv\Scripts\activate
+
+Install dependencies
+
 pip install -r requirements.txt
+
+Run FastAPI
+
 uvicorn main:app --reload
 
-The backend should now be available at:
+Backend:
+
 http://127.0.0.1:8000
 
-Set up the frontend-
-in frontend-
+API docs:
+
+http://127.0.0.1:8000/docs
+
+4. Start the frontend
+
+Open another terminal:
+
+cd frontend
 npm install
 npm run dev
 
-the frontend should be available at:
+Frontend:
+
 http://localhost:3000
 
+🔐 Local-First by Design
+
+Your thoughts can contain extremely personal information.
+
+Unmess is therefore designed around a local-first workflow:
+
+┌─────────────────┐
+│   Your Thoughts │
+└────────┬────────┘
+         ↓
+┌─────────────────┐
+│ Local Application│
+└────────┬────────┘
+         ↓
+┌─────────────────┐
+│   Local AI      │
+│    Ollama       │
+└────────┬────────┘
+         ↓
+┌─────────────────┐
+│ Local SQLite DB │
+└─────────────────┘
+
+The goal is simple:
+
+your thoughts should not have to leave your machine just to become organized.
+
+🆚 Why Unmess?
+
+A normal productivity workflow looks like:
+
+Think
+  ↓
+Figure out what the tasks are
+  ↓
+Create tasks manually
+  ↓
+Set deadlines
+  ↓
+Set priorities
+  ↓
+Organize everything
+
+Unmess changes it to:
+
+Think
+  ↓
+Dump everything
+  ↓
+Unmess understands it
+  ↓
+Tasks + deadlines + priorities
+  ↓
+Actionable plan
+
+The goal isn't to make another prettier to-do list.
+
+The goal is to remove the cognitive overhead between having a thought and knowing what to do next.
+
+🗺️ Roadmap
+
+✅ Current
+
+Brain dump input
+
+AI task extraction
+
+Deadline detection
+
+Priority classification
+
+Basic dependency detection
+
+Persistent SQLite storage
+
+Local AI inference through Ollama
+
+🚧 Next
+
+Task completion checkboxes
+
+Edit generated tasks
+
+Delete tasks
+
+Dynamic task re-organization
+
+Persistent AI memory
+
+Random-thought organization
+
+Automatic task categorization
+
+Deadline reminders
+
+Calendar integration
+
+Task dependency visualization
+
+Adaptive prioritization
+
+More autonomous planning
+
+🌱 Vision
+
+Unmess is built around one simple idea:
+
+Your productivity system shouldn't require you to already be productive.
+
+Real thoughts are messy.
+
+Deadlines overlap.
+
+Responsibilities live across conversations, notes, memory, and random thoughts.
+
+Unmess aims to become an AI layer that can understand that mess and gradually turn it into something actionable.
+
+Messy Thoughts
+      ↓
+Understanding
+      ↓
+Tasks
+      ↓
+Priorities
+      ↓
+Plan
+      ↓
+Action
+
 🤝 Contributing
+
 Contributions are welcome.
-A typical contribution workflow:
+
 git clone https://github.com/YOUR_USERNAME/unmess.git
 cd unmess
 git checkout -b feature/your-feature
 
 Make your changes, test them locally, then:
+
 git add .
 git commit -m "feat: describe your change"
 git push origin feature/your-feature
 
-Open a pull request on GitHub.
-
-
-🔮 Vision
-Unmess is built around a simple idea:
-Your productivity tool shouldn't require you to be productive before it can help you.
-
-Real thoughts are messy.
-Deadlines overlap.
-Responsibilities are scattered across conversations, notes, memory, and random thoughts.
-The goal of Unmess is to build an AI layer that can understand that mess and gradually turn it into something actionable.
+Open a Pull Request on GitHub.
 
 👩‍💻 Built By
+
+<div align="center">
+
 Gauri Mishra
-Computer Science & Engineering student exploring:
-- AI agents
-- Generative AI
-- local AI
-- developer tools
-- intelligent productivity systems
-⭐ Support the Project
+
+Computer Science & Engineering student building with:
+
+AI Agents · Generative AI · Local AI · Developer Tools · Intelligent Productivity Systems
+
+</div>
+
+⭐ Support
+
 If Unmess is useful or interesting:
-- ⭐ Star the repository
-- 🐛 Report bugs
-- 💡 Open feature requests
-- 🔧 Submit pull requests
-- 📣 Share it with someone who has too much going on
+
+⭐ Star the repository
+💡 Suggest features
+🐛 Report bugs
+🔀 Contribute
+📢 Share it with someone who has way too much going on
+
+<div align="center">
+
+❤️ Just dump it. Unmess it.
+
+October 5, 2026
+
+</div>
